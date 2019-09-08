@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[2],{"91rt":function(t,e,n){"use strict";n.r(e);var r=n("ZpG+"),s=Object(r.a)({},function(){var t=this.$createElement,e=this._self._c||t;return e("div",[e("my-header"),this._v(" "),e("my-content"),this._v(" "),e("my-footer")],1)},[],!1,null,null,null);e.default=s.exports}}]);

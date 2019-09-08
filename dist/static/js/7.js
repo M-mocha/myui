@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[7],{"zSN/":function(e,t,n){"use strict";n.r(t);var s=n("ZpG+"),i=Object(s.a)({},function(){var e=this.$createElement;this._self._c;return this._m(0)},[function(){var e=this.$createElement,t=this._self._c||e;return t("section",[t("h1",[this._v("Index page")])])}],!1,null,null,null);t.default=i.exports}}]);
