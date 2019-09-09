@@ -4,11 +4,9 @@ const webpack = require("webpack");
 const config = require("./config");
 const merge = require("webpack-merge");
 const baseWebpackConfig = require("./webpack.base.conf");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 const portfinder = require("portfinder");
-const chalk = require("chalk");
 const address = require("address");
 
 const HOST = process.env.HOST;
@@ -68,13 +66,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             chunks: ["example"]
         }),
         // 复制静态文件
-        new CopyWebpackPlugin([
-            {
-                from: path.resolve(__dirname, "../static"),
-                to: config.dev.assetsSubDirectory,
-                ignore: [".*"]
-            }
-        ])
+        // new CopyWebpackPlugin([
+        //     {
+        //         from: path.resolve(__dirname, "../static"),
+        //         to: config.dev.assetsSubDirectory,
+        //         ignore: [".*"]
+        //     }
+        // ])
     ]
 });
 
@@ -95,8 +93,7 @@ module.exports = new Promise((resolve, reject) => {
                     compilationSuccessInfo: {
                         messages: [
                             `Your application is running here: `,
-                            " ",
-                            chalk.blue(`http://${Local}:${port}`)
+                            `http://${Local}:${port}`
                         ]
                     },
                     onErrors: config.dev.notifyOnErrors

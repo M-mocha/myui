@@ -38,6 +38,11 @@ export default {
       }
     }
   },
+  watch: {
+    currentUrl(a) {
+      console.log(a,a)
+    }
+  },
   computed: {
     currentUrl () {
       let path = ''

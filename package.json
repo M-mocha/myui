@@ -8,6 +8,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config build/dev",
     "build": "node build/build",
     "lint": "eslint --fix --ext .js,.vue src",
+    "lint:prettier": "prettier --write \"src/**/*.{js,json,css,scss,less,vue}\"",
     "watcher": "node build/watcher.js"
   },
   "husky": {
