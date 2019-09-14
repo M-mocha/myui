@@ -13,9 +13,6 @@ const HOST = process.env.HOST;
 const PORT = process.env.PORT && Number(process.env.PORT);
 const Local = address.ip();
 
-function resolve (dir) {
-    return path.resolve(__dirname, "..", dir);
-}
 const devWebpackConfig = merge(baseWebpackConfig, {
     mode: "development",
     devtool: config.dev.devtool,
@@ -101,7 +98,6 @@ module.exports = new Promise((resolve, reject) => {
                         : undefined
                 })
             );
-
             resolve(devWebpackConfig);
         }
     });

@@ -1,28 +1,27 @@
-console.log('Watching dirs...')
+const {scanner} = require('./utils/fsTools')
 const path = require('path')
-const chokidar = require('chokidar')
 const fs = require('fs')
-const routeList = []
 
-const watcher = chokidar.watch(path.resolve(__dirname, '../src/pages'), {
-    ignored: /(^|[\/\\])\../
-})
+const filePath =  path.resolve(__dirname, `./temp/filelist.js`)
+const watcher = scanner(path.resolve(__dirname, '../src/pages'), process.env.NODE_ENV === 'development')
 
-watcher
-.on('addDir', (itemPath) => {
-    let routeName = itemPath.split(path.sep).pop()
-    if (routeName !== 'pages' && routeName !== 'index') {
-        routeList.push(`'${routeName}'`)
-        fs.writeFileSync(path.resolve(__dirname, '../src/route-list.js'), `module.exports = [${routeList}]`)
+const cut = (absPath) => absPath.replace(path.resolve(__dirname, '../src') + '/', '')
+
+const autoWrite = (filelist = []) => {
+    filelist = filelist.filter(item => (/.vue$/.test(item) || /.md$/.test(item)))
+    const mds = filelist.map(item => `{path: '${cut(item)}', component: resolve => require(['${item}'], resolve)}`).join(',');
+    fs.writeFileSync(filePath, `module.exports = [${mds}]`)
+}
+
+
+watcher.onFinish((filelist) => {
+    autoWrite(filelist);
+});
+watcher.onChange(({filelist, type}) => {
+    if (/add/.test(type) || /del/.test(type)) {
+        console.log(filelist)
+        autoWrite(filelist);
     }
-})
-.on('unlinkDir', (itemPath) => {
-    let routeName = itemPath.split(path.sep).pop()
-    const itemIndex = routeList.findIndex((val) => {
-        return val === `${routeName}`
-    })
-    routeList.splice(itemIndex, 1)
-    fs.writeFileSync(path.resolve(__dirname, '../src/route-list.js'), `module.exports = [${routeList}]`)
 })
 
 module.exports = watcher
