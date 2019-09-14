@@ -5,26 +5,13 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const hljs = require('highlight.js')
 const HappyPack = require('happypack') // 开启多线程
 const os = require('os')
+const {wrapTagPlugin} = require('./utils/markdownTools')
 
 let happyThreadPool =  HappyPack.ThreadPool({size: os.cpus().length})
 
 function resolve (dir) {
     return path.resolve(__dirname, '..', dir)
 }
-
-const markdown = require('markdown-it')({
-    highlight: function (str, lang) {
-        if (lang && hljs.getLanguage(lang)) {
-            try {
-                return '<pre class="hljs"><code>' +
-                    hljs.highlight(lang, str, true).value +
-                    '</code></pre>';
-            } catch (__) { }
-        }
-
-        return '<pre class="hljs"><code>' + markdown.utils.escapeHtml(str) + '</code></pre>';
-    }
-})
 
 const createLintingRule = () => ({
     test: /\.(js|vue)$/,
@@ -112,7 +99,10 @@ module.exports = {
                     {
                         loader: 'vue-markdown-loader/lib/markdown-compiler',
                         options: {
-                            raw: true
+                            raw: true,
+                            use: [
+                                [wrapTagPlugin, {mode: 'both'}]
+                            ]
                         }
                     }
                 ]
