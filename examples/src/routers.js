@@ -1,20 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import routeList from '../../src/route-list.js'
+import {docRoutes} from '../../src/route-list.js'
+import install from '../../src/components/index'
 
+install(Vue)
 Vue.use(VueRouter)
 
-const routes = [
-  { path: '/', component: resolve => require(['pages/index/README.md'], resolve) }
-]
-
-routeList.forEach((route) => {
-  routes.push({
-    path: `/${route}`,
-    component: resolve => require([`pages/${route}/README.md`], resolve)
-  })
-})
-
-const router = new VueRouter({ routes })
+const router = new VueRouter({ mode: 'history', routes: docRoutes })
 
 export default router
