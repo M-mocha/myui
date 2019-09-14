@@ -5,6 +5,9 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint'
   },
+  globals: {
+    "require": true
+  },
   env: {
     browser: true,
     es6: true
