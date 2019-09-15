@@ -1,0 +1,99 @@
+@import '../../../styles/theme/default.less';
+
+.myui-flexbox {
+    display: flex;
+    overflow: hidden;
+    // flex-direction -> props direction
+    &&-dir-row {
+        flex-direction: row
+    }
+    &&-dir-row-reverse {
+        flex-direction: row-reverse
+    }
+    &&-dir-column {
+        height: 100%;
+        flex-direction: column;
+    }
+    &&-dir-column-reverse {
+        height: 100%;
+        flex-direction: column-reverse;
+    }
+    // flex-wrap -> props wrap
+    &&-nowrap {
+        flex-wrap: nowrap;
+    }
+    &&-wrap {
+        flex-wrap: wrap;
+    }
+    // justify-content -> props justify
+    &&-justify-start {
+        justify-content: flex-start;
+    }
+    &&-justify-end {
+        justify-content: flex-end;
+    }
+    &&-justify-center {
+        justify-content: center;
+    }
+    &&-justify-between {
+        justify-content: space-between;
+    }
+    &&-justify-around {
+        justify-content: space-around;
+    }
+    // prop align
+    &&-align-start {
+        align-items: flex-start;
+    }
+    &&-align-end {
+        align-items: flex-end;
+    }
+    &&-align-center {
+        align-items: center;
+    }
+    &&-align-stretch {
+        align-items: stretch;
+    }
+    &&-align-baseline {
+        align-items: baseline;
+    }
+    // align-content
+    &&-align-content-start {
+        align-content: flex-start;
+    }
+    &&-align-content-end {
+        align-content: flex-end;
+    }
+    &&-align-content-center {
+        align-content: center;
+    }
+    &&-align-content-between {
+        align-content: space-between;
+    }
+    &&-align-content-around {
+        align-content: space-around;
+    }
+    &&-align-content-stretch {
+        align-content: stretch;
+    }
+    &&-gap-sm {
+        & .myui-flexbox-item:not(:first-child) {
+            margin-left: @hSpacingSm;
+        }
+    }
+    &&-gap-md {
+        & .myui-flexbox-item:not(:first-child) {
+            margin-left: @hSpacingMd;
+        }
+    }
+    &&-gap-lg {
+        & .myui-flexbox-item:not(:first-child) {
+            margin-left: @hSpacingLg;
+        }
+    }
+    & &-item {
+        box-sizing: border-box;
+        flex: 1;
+        min-width: 10 * @ud;
+    }
+}

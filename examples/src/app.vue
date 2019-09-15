@@ -1,15 +1,13 @@
 <template>
-  <div class="example-root">
+  <flexbox class="myui_doc_root" direction='column'>
     <Header />
-    <div class="example-body">
-      <div class="example-aside">
-        <Sidebar />
-      </div>
-      <div class="markdown-body">
+    <flexbox-item class="myui_doc_body">
+      <Sidebar />
+      <div class="myui_doc_markdown">
         <router-view></router-view>
       </div>
-      <div class="example-iphone" :style="iphoneXImg">
-        <div class="example-iphone-iframe">
+      <div class="myui_doc_iphone">
+        <div class="myui_doc_iphone_iframe">
           <iframe
             :src="currentUrl"
             frameborder="0"
@@ -19,12 +17,14 @@
           <div class="example-iphone-home"></div>
         </div>
       </div>
-    </div>
-  </div>
+    </flexbox-item>
+  </flexbox>
 </template>
 <script>
+import bus from '@/utils/bus'
 import Header from './components/header'
 import Sidebar from './components/sidebar'
+import { constants } from 'crypto';
 export default {
   components: {
     Header,
@@ -38,106 +38,64 @@ export default {
       }
     }
   },
-  watch: {
-    currentUrl(a) {
-      console.log(a,a)
-    }
-  },
   computed: {
     currentUrl () {
       let path = ''
       if (/docs/.test(location.href)) {
         path = 'docs/'
       }
-      console.log(`${location.protocol}//${location.host}/${path}demo.html#${this.$route.path}`)
-      return `${location.protocol}//${location.host}/${path}demo.html#${this.$route.path}`
+      return `${location.protocol}//${location.host}/${path}demo.html#${bus.$data.selectedView.demoPath || '/'}`
+    },
+    demoPath() {
+      return bus.$data.selectedView.demoPath;
     }
-  },
-  methods: {
-    // toDemo () {
-    //   let path = this.$route.path === '/' ? '' : '#/demos' + this.$route.path
-    //   if (!location.origin) {
-    //     location.origin = location.protocol + '//' + location.host
-    //   }
-    //   console.log(location.origin + location.pathname + 'demo.html' + path, 'demos path')
-    //   return location.origin + location.pathname + 'demo.html' + path
-    // }
   }
 }
 </script>
-<style lang="scss">
-* {
-  padding: 0;
-  margin: 0;
-}
-.example {
-  &-body {
-    padding-top: 56px;
-    .example-aside {
-      width: 220px;
-      overflow: auto;
-      position: fixed;
-      height: calc(100% - 55px);
-      &::-webkit-scrollbar {
-        width: 5px;
-        height: 10px;
-      }
-      &::-webkit-scrollbar-track {
-        background-color: #fff;
-      }
-      &::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        background-color: rgba(0, 0, 0, 0.2);
-      }
-    }
-    .markdown-body {
-      padding: 10px 400px 50px 250px;
-      h4 {
-        margin-top: 30px;
+
+<style lang="less">
+@import './styles/index.less';
+@import '../../node_modules/highlight.js/styles/github.css';
+
+@iphoneWidth: 308px;
+@iphoneHeight: @iphoneWidth / 730 * 1584;
+@iphoneTop: 10.5%;
+@iphoneSide: 4.2%;
+@iphoneBottom: 12%;
+.myui_doc{
+  &_body {
+    display: flex;
+    .myui_doc_markdown {
+      flex: 1;
+      padding: 0px @iphoneWidth + 40px @vSpacingLg @hSpacingLg;
+      overflow-y: scroll;
+      & > div {
+        margin: 0 auto;
       }
     }
   }
-  &-iphone {
+  &_iphone {
     position: fixed;
-    width: 330px;
-    height: 725px;
-    top: 70px;
-    right: 40px;
-    z-index: 1;
-    &-iframe {
-      position: absolute;
-      top: 80px;
-      left: 21px;
-      right: 23px;
-      bottom: 104px;
-      overflow: hidden;
-      border: 1px solid #edf0f4;
-      border-top: none;
-      background-color: #edf0f4;
-    }
-  }
-  &-root {
-    font-family: Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #666;
-    font-size: 14px;
-    .markdown-body {
-      h2 {
-        margin: 20px 0;
-      }
-      pre {
-        border: 1px solid #eaeefb;
-        background-color: #fafafa;
-      }
-      table {
-        width: 100%;
-        text-align: left;
-        td,
-        th {
-          border-bottom: 1px solid #f5f5f5;
-          padding: 8px;
-        }
+    right: 0px;
+    top: 90px;
+    width: @iphoneWidth + 40px;
+    height: @iphoneHeight + 10px;
+    &_iframe {
+      background: url('../../static/images/phone.png') no-repeat center;
+      background-size: cover;
+      width: @iphoneWidth;
+      height: @iphoneHeight;
+      margin: 0 auto;
+      position: relative;
+      iframe {
+        position: absolute;
+        width: 100% - @iphoneSide * 2;
+        height: 100% - @iphoneTop - @iphoneBottom;
+        top: @iphoneTop;
+        bottom: @iphoneBottom;
+        left: @iphoneSide;
+        right: @iphoneSide;
+        background-color: @fillBody;
       }
     }
   }

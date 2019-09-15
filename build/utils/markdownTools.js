@@ -3,18 +3,18 @@
  * @param {*} md 
  * @param {*} {mode}, 'comment' or 'both' or 'colon'
  * from 
- *      <!-- className --> 
+ *      <!--@ className --> 
  *          something here
- *      <!--  -->
+ *      <!--@  -->
  * to 
  *      <div class='className'> 
  *          something here
  *      </div>
  * -----------------------------------------
  * from 
- *      <!-- c_vuecomp --> 
+ *      <!--@ c_vuecomp --> 
  *          something here
- *      <!--  -->
+ *      <!--@  -->
  * to 
  *      <vuecomp class='className'> 
  *          something here
@@ -38,7 +38,7 @@ function wrapTagPlugin(md, {mode}) {
         })
     }
     function commentReplace(str) {
-        return str.replace(/\<\!--(.*?)--\>((.|\r|\n)*?)\<\!--\s*--\>/g, (_, $1, $2) => {
+        return str.replace(/\<\!--@(.*?)--\>((.|\r|\n)*?)\<\!--@\s*--\>/g, (_, $1, $2) => {
             const trim1 = $1.trim()
             if (/^c_/.test(trim1)) {
                 const tag = trim1.replace(/^c_/, '');

@@ -1,0 +1,39 @@
+@import './variables.less';
+
+.myui_doc_markdown {
+    background-color: @fillBase;
+    h1 {
+        font-size: @fontSizeXlg;
+        margin: @vSpacingXlg 0 @vSpacingLg 0;
+    }
+    h1 + p, h1 + div {
+      margin-top: -@vSpacingUnit;
+    }
+    h2 {
+      margin: @vSpacingLg 0 @vSpacingMd 0;
+    }
+    h3 {
+        margin: @vSpacingMd 0 @vSpacingSm 0;
+    }
+    h4, h5, h6 {
+        margin: @vSpacingSm 0;
+    }
+    p {
+      margin: @vSpacingSm 0;
+    }
+    pre {
+        border-radius: @radiusLg;
+        padding: @vSpacingSm @hSpacingSm;
+        margin-left: -@hSpacingXsm / 2;
+        background-color: @fillBody;
+    }
+    table {
+      width: 100%;
+      text-align: left;
+      td,
+      th {
+        border-bottom: 1px solid @borderColorShallow;
+        padding: @vSpacingXsm;
+      }
+    }
+  }

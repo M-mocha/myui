@@ -6,6 +6,6 @@ import install from '../../src/components/index'
 install(Vue)
 Vue.use(VueRouter)
 
-const router = new VueRouter({ mode: 'history', routes: docRoutes })
+const router = new VueRouter({ routes: docRoutes })
 
 export default router
