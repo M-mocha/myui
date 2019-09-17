@@ -19,7 +19,6 @@ watcher.onFinish((filelist) => {
 });
 watcher.onChange(({filelist, type}) => {
     if (/add/.test(type) || /del/.test(type)) {
-        console.log(filelist)
         autoWrite(filelist);
     }
 })

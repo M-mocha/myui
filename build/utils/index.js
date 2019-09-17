@@ -1,7 +1,7 @@
 'use strict'
 const path = require('path')
-const config = require('./config')
-const packageConfig = require('../package.json')
+const config = require('../config')
+const packageConfig = require('../../package.json')
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const isProduct = process.env.NODE_ENV === 'production'

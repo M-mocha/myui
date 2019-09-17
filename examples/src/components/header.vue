@@ -2,7 +2,7 @@
   <header>
     <flexbox align="center" justify='end'>
       <h2>
-        <router-link to="/">MyUI</router-link>
+        <router-link to="/">MYUI</router-link>
       </h2>
       <flexbox-item class="myui_doc_header_navigator">
         <div class="myui_doc_header_navigator_item">

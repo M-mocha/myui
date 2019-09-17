@@ -4,13 +4,19 @@ const docRoutes = []
 const appRoutes = []
 const docNavInfos = []
 
+/**
+ * 组件分类配置
+ */
 const componentCategory = [
     {
         name: 'base',
         group: ['flexbox', 'button']
     }
 ]
-
+/**
+ * 这里侧边栏的解析规则配置正则中匹配到的第字符串——$0 对应的字符串将作为路由名称
+ * 目前只配置了guide 和 compoennts
+ */
 const sidebarNavConfigs = [
     {
         name: 'introduction',
@@ -29,6 +35,10 @@ const sidebarNavConfigs = [
 
 const vuePath = (vueModule) => !vueModule ? undefined : vueModule.path.replace('pages', '').replace(/\/\w*?.vue$/, '')
 
+/**
+ * 通过配置解析生成的文件，为对应的路由，demo路由、文档路由以及文档侧边栏信息
+ * 同一个目录下如果存在REAMD.md和index.vue, 那么两者形成映射
+ */
 const sidebarNavInfos = sidebarNavConfigs.map(group => {
     const modules = fileModules.filter(_module => group.match.test(_module.path));
     const mdModules = modules.filter(_module => /\.md$/.test(_module.path)).sort();

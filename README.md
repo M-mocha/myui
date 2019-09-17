@@ -9,12 +9,15 @@
 │   ├── check-versions.js // 检查版本
 │   ├── config.js // 配置文件
 │   ├── dev.js // 开发文件入口
-│   ├── utils.js // 开发工具
 │   ├── vue-loader.conf.js // VueLoaderPlugin引入
 │   ├── watcher.js // 监听pages目录自动生成路由
 │   ├── webpack.base.conf.js // webpack通用配置
 │   ├── webpack.dev.conf.js // wenpack开发环境配置
 │   └── webpack.prod.conf.js // webpack生产环境配置
+│   └── utils 
+│       ├── index.js // 开发、构建工具函数入口
+│       ├── fsTools.js // 文件操作相关工具
+│       └── markdownTools.js // 目前编写一个markdown-it插件，支持将某些文本块包裹在div标签或vue标签中
 ├── dist // 打包构建可布置静态网页
 ├── examples // 文档页目录
 │   ├── index.html // 文档页入口html
@@ -53,29 +56,31 @@
     └── 组件D
         └── index.vue
 ```
-- 对应的文件预览页，在pages下面写对应的组件库，目录格式为 
+- 对应的文件预览页，在pages/components下面写对应的组件库，pages/guide下写项目指引，目录格式为 
 ```
 ──pages
-  ├── 页面A
-  │   ├── index.vue
-  │   └── README.md
-  ├── 页面B
-  │   ├── index.vue
-  │   └── README.md
-  ├── 页面C
-  │   ├── index.vue
-  │   └── README.md
-  └── 页面D
-      ├── index.vue
-      └── README.md
+  ├── guide
+  │   ├── README.md
+  │   ├── howToUse.md
+  │   └── changelog.md
+  └── components
+      ├── 页面C
+      │   ├── index.vue
+      │   └── README.md
+      └── 页面D
+          ├── index.vue
+          └── README.md
 ```
 
-在开发环境以及生产环境会自动运行build下面的watcher文件
-如需手动运行科执行
+在开发环境以及生产环境会自动运行build下面的watcher文件，
+如需手动运行可执行
 ```
 npm run watcher
 ```
-生产内容如下
+生产文件到build/temp/filelist.js 文件中, 内容如下，src/route-list.js对其进行引用并解析
 ```
-module.exports = ['页面A','页面B','页面C','页面D']
+module.exports = [{
+  path: 'pages/components/button/README.md',
+  component: resolve => require(['/Users/qoxop/development/mynpm/myui/src/pages/components/button/README.md'], resolve)
+}]
 ```
