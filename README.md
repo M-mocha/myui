@@ -84,3 +84,64 @@ module.exports = [{
   component: resolve => require(['/Users/qoxop/development/mynpm/myui/src/pages/components/button/README.md'], resolve)
 }]
 ```
+
+### 自动生成目录实现思路
+
+#### 1. 扫描文件列表思路
+
+1. build/utils/fsTools.js 模块下中导出的`scanner`函数作用是扫描某个目录下的所有文件，生成一份文件列表，通过done回调函数获取该列表，watch模式下可通过onchange回调函数动态获取获取。
+
+2. build/watcher.js 通过执行`scanner`函数(开发模式开启watch模式)，将得到的文件列表转化成如上形式的代码(写入到 build/temp/filelist.js 中)
+
+3. 在 src/route-list.js 中引用build/temp/filelist.js，在src/route-list.js中可以用任**何一种特定的形式**去组装路由信息和侧边栏信息。
+
+4. 在demo应用和doc应用中引入路由并注册。
+
+
+
+#### 2. src/route-list.js 自动生成目录的实现思路
+
+> 最终目的： 灵活地动态生成侧边栏信息，支持分组和分类,  自动映射文档和预览页
+
+1. 关于 `src/route-list.js` 的输入输出结构如下
+
+```Typescript
+/** 输入 **/ 
+type Category = Array<{ // 分类配置
+  name: string, // 分配名称
+  group: string[] //组件名称数组
+}>
+type SidebarNavConfigs = Array<{ // 侧边栏分组配置
+  name: string,  // 分组名称
+  indexName?: string,  // 该分组下的根路由名称, 作用在于如果以文件名作为路由名称时，README.md文件作为根路由需要一个名字替代 README
+  base: '/',  // 该分组的根路由
+  match: RegExp   // 分组配置规则, eg: /pages\/guide\/(.*?)\.(md|vue)/ 其中 (.*?) 匹配到的值作为为路由名称
+  categories?: Category  // 为该分组配置组件分类
+}>
+
+/** 输出 **/
+type docRoutes = {path: string, component: vueCompnent}
+type appRoutes = {path: string, component: vueCompnent}
+type docNavInfos = Array<{ // 侧边栏项目信息
+  path: string // 侧边栏链接路由路径
+  name: string // 侧边栏链接名字
+  category?: string // 所属分类，可有可无，主要还是为了组件分类
+  demoPath?: string // 对应的预览页路由路径, 如果没有预览页是app首页
+}>
+type sidebarNavInfos = Array<{ // 分组信息
+  name: string // 分组名称
+  routes: docNavInfos // 该分组下的所有文档路由信息
+}>
+```
+
+
+
+2. 如何解析 `SidebarNavConfigs` ？
+
+- 遍历配置项， 通过`match`字段提供的正则表达式获取对应的`.md`文件列表和每个文件的`name`,
+
+- 对于每个`.md`文件，如果存在对应路径一致的`.vue`文件，就将其作为对应的预览页
+-  如果`match`字段提供的正则表达式的提取的`name`是**文件名**，而非**路径名**，README.md 作为根路由文件，就需要提供`indexName` 作为它的`name`
+
+- 通过配置项的`base`字段和文件的`name`, 作为路由路径
+
