@@ -1,4 +1,4 @@
-const fileModules = require('../build/temp/filelist')
+const fileModules = require('./mdComponents.js')
 
 // 普通的vue路由数组
 const docRoutes = []
